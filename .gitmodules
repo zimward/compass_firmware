@@ -1,0 +1,7 @@
+[submodule "libs/TinyWireM"]
+	path = libs/TinyWireM
+	url = https://github.com/adafruit/TinyWireM.git
+
+[submodule "libs/ATTinyCore"]
+	path = libs/ATTinyCore
+	url = https://github.com/SpenceKonde/ATTinyCore.git
