@@ -10,7 +10,7 @@ INCLUDE := $(addprefix $(LIBS)/,ATTinyCore/avr/variants/tinyX5 ATTinyCore/avr/co
 SRCDIRS := $(addprefix $(LIBS)/,TinyWireM ATTinyCore/avr/libraries/EEPROM) \
 	   src
 CFLAGS 	:= -std=gnu++14 $(addprefix -I,$(INCLUDE)) -Os -Wall -Wextra -mmcu=$(MCU) -fdata-sections -ffunction-sections
-LFLAGS 	:= #-Wl,-gc-sections
+LFLAGS 	:= -Wl,-gc-sections
 
 
 CC	:= avr-gcc
@@ -29,7 +29,7 @@ OBJECTS := $(OBJECTS:.cpp=.o)
  
 .PHONY : all
 all : compile
-	$(CXX) $(LFLAGS) $(OBJECTS)
+	$(CXX) -mmcu=$(MCU) $(LFLAGS) $(OBJECTS)
 	$(OBJCOPY) -O ihex a.out a.hex
 .PHONY : compile
 compile :
