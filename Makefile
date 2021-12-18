@@ -13,13 +13,16 @@ SRCDIRS := $(addprefix $(LIBS)/,TinyWireM ATTinyCore/avr/libraries/EEPROM) \
 CFLAGS 	:= -std=gnu++14 $(addprefix -I,$(INCLUDE)) -Os -Wall -Wextra -mmcu=$(MCU) -fdata-sections -ffunction-sections
 LFLAGS 	:= -Wl,-gc-sections
 
+#Format Flags
+FFLAGS  := -i
 
 CC	:= avr-gcc
 CXX	:= avr-g++
 OBJCOPY := avr-objcopy
+FORMAT  := clang-format
 
-SOURCES := $(shell find $(SRCDIRS) -name '*.c' -type f) \
-	   $(shell find $(SRCDIRS) -name '*.cpp' -type f)
+
+SOURCES := $(shell find $(SRCDIRS) -type f \( -name '*.c' -o -name '*.cpp' \))
 
 OBJECTS := $(shell basename -a $(SOURCES)) 
 OBJECTS := $(OBJECTS:.c=.o)
@@ -33,7 +36,6 @@ all : compile
 
 compile :
 	$(CXX) -c $(CFLAGS) -DF_CPU=$(F_CPU)  $(SOURCES)
-	$(shell mv  "$(find $(SRCDIRS) -name '*.o' -type f)" ./) 
 
 a.hex : all
 
@@ -43,4 +45,7 @@ clean :
 install : a.hex
 	avrdude -p $(MCU) -P $(PORT) -c $(PROGRAMMER) -b $(BAUD) -U flash:w:a.hex
 
-.PHONY : install, all, clean
+format  : .clang-format
+	$(FORMAT) -style=file $(FFLAGS) $(shell find src/ -type f \( -name '*.c' -o -name '*.h' \)) 
+
+.PHONY : install, all, clean, format
