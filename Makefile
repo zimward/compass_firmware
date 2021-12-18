@@ -30,6 +30,8 @@ OBJECTS := $(OBJECTS:.cpp=.o)
 
 
 # Compilation
+.PHONY : install, all, clean, format
+
 all : compile
 	$(CXX) -mmcu=$(MCU) $(LFLAGS) $(OBJECTS)
 	$(OBJCOPY) -O ihex a.out a.hex
@@ -47,5 +49,3 @@ install : a.hex
 
 format  : .clang-format
 	$(FORMAT) -style=file $(FFLAGS) $(shell find src/ -type f \( -name '*.c' -o -name '*.h' \)) 
-
-.PHONY : install, all, clean, format
