@@ -39,13 +39,13 @@ all : compile
 compile :
 	$(CXX) -c $(CFLAGS) -DF_CPU=$(F_CPU)  $(SOURCES)
 
-a.hex : 
+a.hex : $(SOURCES)
 	make all
 
 clean :
 	rm *.o a.out a.hex
 
-install : a.hex
+install : a.hex 
 	avrdude -p $(MCU) -P $(PORT) -c $(PROGRAMMER) -b $(BAUD) -U flash:w:a.hex
 
 format  : .clang-format
