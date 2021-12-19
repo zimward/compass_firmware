@@ -39,7 +39,8 @@ all : compile
 compile :
 	$(CXX) -c $(CFLAGS) -DF_CPU=$(F_CPU)  $(SOURCES)
 
-a.hex : all
+a.hex : 
+	make all
 
 clean :
 	rm *.o a.out a.hex
